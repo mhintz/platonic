@@ -1,8 +1,8 @@
-const vec3 = require('gl-matrix').vec3;
+import vec3 from 'gl-matrix';
 
-const util = require('./util');
+import util from './util';
 
-module.exports = function createCube(inputOpts={}) {
+export function createCube(inputOpts={}) {
   let opts = {
     flattened: true,
     normals: true,
@@ -74,6 +74,6 @@ module.exports = function createCube(inputOpts={}) {
     vertices: vertices,
     normals: normals,
     indices: triangles,
-    indexCount: 36
-  }
-};
+    indexCount: opts.flattened ? triangles.length : triangles.length * 3
+  };
+}
