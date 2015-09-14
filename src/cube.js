@@ -62,8 +62,6 @@ module.exports = function createCube(inputOpts={}) {
     if (opts.normals) {
       normals = util.genFaceNormalsPerVertex(vertices, triangles);
     }
-
-    console.log(vertices, triangles, normals);
   }
 
   if (opts.flattened) {
