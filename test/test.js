@@ -52,14 +52,10 @@ window.testCube = function() {
 
   let shader = createShader(gl, vertShaderSrc, fragShaderSrc);
 
-  console.log(shader.attributes.a_position.location, shader.attributes.a_normal.location);
-
   let cubeGeom = platonic.cube({ normals: true, sharedVertices: false });
   let verticesBuffer = createVBO(gl, cubeGeom.vertices);
   let normalsBuffer = createVBO(gl, cubeGeom.normals);
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
-
-  console.log(cubeGeom.normals);
 
   let modelRotation = glm.quat.create();
   let viewMatrix = glm.mat4.lookAt(glm.mat4.create(), glm.vec3.fromValues(0, 0, 2), glm.vec3.fromValues(0, 0, 0), glm.vec3.fromValues(0, -1, 0));
