@@ -8,26 +8,20 @@ function getRawCube() {
 
   // Rotates the cube around the x axis to align a point with the z axis
   let rotation = quat.create();
-  quat.rotateX(rotation, rotation, Math.PI / 4);
+  quat.rotateX(rotation, rotation, Math.PI / 5);
 
   let v1 = vec3.fromValues(0, irad, diag);
-  vec3.transformQuat(v1, v1, rotation);
   let v2 = vec3.fromValues(diag, irad, 0);
-  vec3.transformQuat(v2, v2, rotation);
   let v3 = vec3.fromValues(0, irad, -diag);
-  vec3.transformQuat(v3, v3, rotation);
   let v4 = vec3.fromValues(-diag, irad, 0);
-  vec3.transformQuat(v4, v4, rotation);
   let v5 = vec3.fromValues(-diag, -irad, 0);
-  vec3.transformQuat(v5, v5, rotation);
   let v6 = vec3.fromValues(0, -irad, diag);
-  vec3.transformQuat(v6, v6, rotation);
   let v7 = vec3.fromValues(diag, -irad, 0);
-  vec3.transformQuat(v7, v7, rotation);
   let v8 = vec3.fromValues(0, -irad, -diag);
-  vec3.transformQuat(v8, v8, rotation);
 
   let vertices = [ v1, v2, v3, v4, v5, v6, v7, v8 ];
+
+  vertices.forEach((v) => vec3.transformQuat(v, v, rotation));
 
   let triangles = [];
 
