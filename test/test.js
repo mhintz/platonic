@@ -65,8 +65,8 @@ function runTest(generator) {
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
 
   let modelRotation = glm.quat.create();
-  let viewMatrix = glm.mat4.lookAt(glm.mat4.create(), glm.vec3.fromValues(0, 0, 2), glm.vec3.fromValues(0, 0, 0), glm.vec3.fromValues(0, -1, 0));
 
+  let viewMatrix = null;
   let projectionMatrix = null;
 
   gl.clearColor(0, 0, 0, 1);
@@ -74,7 +74,19 @@ function runTest(generator) {
 
   function onResize() {
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    projectionMatrix = glm.mat4.perspective(glm.mat4.create(), 30, gl.canvas.width / gl.canvas.height, 0.1, 5);
+
+    let ar = gl.canvas.width / gl.canvas.height;
+    let nearPlaneZ = 0.5;
+    let farPlaneZ = 10;
+
+    // Perspective projection test
+    // viewMatrix =  glm.mat4.lookAt(glm.mat4.create(), glm.vec3.fromValues(0, 0, 5), glm.vec3.fromValues(0, 0, 0), glm.vec3.fromValues(0, 1, 0));
+    // projectionMatrix = glm.mat4.perspective(glm.mat4.create(), Math.PI / 6, gl.canvas.width / gl.canvas.height, nearPlaneZ, farPlaneZ);
+
+    // Orthographic projection test
+    let scale = 1.3;
+    viewMatrix =  glm.mat4.lookAt(glm.mat4.create(), glm.vec3.fromValues(0, 0, 2), glm.vec3.fromValues(0, 0, 0), glm.vec3.fromValues(0, 1, 0));
+    projectionMatrix = glm.mat4.ortho(glm.mat4.create(), -ar * scale, ar * scale, -scale, scale, nearPlaneZ, farPlaneZ);
   }
 
   onResize();
@@ -87,6 +99,7 @@ function runTest(generator) {
 
     glm.quat.rotateX(modelRotation, modelRotation, Math.PI / 500);
     glm.quat.rotateY(modelRotation, modelRotation, Math.PI / 500);
+    glm.quat.rotateZ(modelRotation, modelRotation, Math.PI / 500);
 
     let modelView = glm.mat4.mul(glm.mat4.create(), viewMatrix, glm.mat4.fromQuat(glm.mat4.create(), modelRotation));
     let normalView = glm.mat4.invert(glm.mat4.create(), modelView);
