@@ -131,3 +131,7 @@ window.testTetrahedron = function() {
 window.testCube = function() {
   runTest(platonic.cube);
 }
+
+window.testOctahedron = function() {
+  runTest(platonic.octahedron);
+}
