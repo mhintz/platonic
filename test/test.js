@@ -99,13 +99,16 @@ function runTest(generator) {
 
   app
   .on('tick', function tick(dt) {
+    let speedFactor = dt / 20;
+    let adjustedSpeed = rotationSpeed * speedFactor;
+
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     shader.bind();
 
-    glm.quat.rotateX(modelRotation, modelRotation, rotationSpeed);
-    glm.quat.rotateY(modelRotation, modelRotation, rotationSpeed);
-    glm.quat.rotateZ(modelRotation, modelRotation, rotationSpeed);
+    glm.quat.rotateX(modelRotation, modelRotation, adjustedSpeed);
+    glm.quat.rotateY(modelRotation, modelRotation, adjustedSpeed);
+    glm.quat.rotateZ(modelRotation, modelRotation, adjustedSpeed);
 
     let modelView = glm.mat4.mul(glm.mat4.create(), viewMatrix, glm.mat4.fromQuat(glm.mat4.create(), modelRotation));
     let normalView = glm.mat4.invert(glm.mat4.create(), modelView);
