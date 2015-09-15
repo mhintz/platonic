@@ -43,20 +43,23 @@ function runTest(generator) {
 
     varying vec4 v_color;
     varying vec3 v_normal;
-    varying vec3 v_viewNormal;
     varying vec3 v_viewPos;
+    varying vec3 v_viewNormal;
 
     void main() {
-      vec3 toCamera = - v_viewPos;
-      float greyVal = clamp(dot(v_viewNormal, toCamera), 0., 1.) / 2.;
-      gl_FragColor = vec4(greyVal, greyVal, greyVal, 1.);
-      // gl_FragColor = vec4(v_normal, 1.);
+      vec3 toCamera = normalize(vec3(1, 0.5, 0) - v_viewPos);
+      vec3 normal = normalize(v_normal);
+      vec3 viewNormal = normalize(v_viewNormal);
+
+      float greyVal = clamp(dot(viewNormal, toCamera), 0., 1.) * 0.5;
+      gl_FragColor = vec4(0.15, 0.15, 0.15, 1.) + vec4(greyVal, greyVal, greyVal, 1.);
+      // gl_FragColor = vec4(normal, 1.);
     }
   `;
 
   let shader = createShader(gl, vertShaderSrc, fragShaderSrc);
 
-  let cubeGeom = generator({ normals: true, sharedVertices: true });
+  let cubeGeom = generator({ normals: true, sharedVertices: false });
   let verticesBuffer = createVBO(gl, cubeGeom.vertices);
   let normalsBuffer = createVBO(gl, cubeGeom.normals);
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
