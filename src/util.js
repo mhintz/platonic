@@ -14,6 +14,8 @@ function getNormal(vertices, [iA, iB, iC]) {
 
   let normal = vec3.cross(vec3.create(), s1, s2);
 
+  vec3.normalize(normal, normal);
+
   return normal;
 }
 
@@ -31,20 +33,27 @@ export function genAvgNormals(vertices, triangles) {
       let store = normalAccum[index];
 
       if (!store) {
-        store = normalAccum[index] = {
-          nrml: vec3.create(),
-          count: 0
-        };
+        normalAccum[index] = store = vec3.create();
       }
 
-      vec3.add(store.nrml, store.nrml, normal);
-      store.count += 1;
+      vec3.add(store, store, normal);
     });
   });
 
-  let normals = normalAccum.map((store) => vec3.scale(store.nrml, store.nrml, 1 / store.count));
+  let normals = normalAccum.map((nrml) => vec3.normalize(nrml, nrml));
 
   return normals;
+}
+
+// When the shape is centered at the origin and all faces are
+// perpendicular to the vector back to the origin,
+// the vertex normals are the same as the vertices!
+export function vertsAsNormals(vertices, triangles) {
+  return vertices.map((vert) => {
+    let norm = vec3.clone(vert);
+    vec3.normalize(norm, norm);
+    return norm;
+  });
 }
 
 // Generates a list of normals, one for each triangle specified in triangles
@@ -122,8 +131,7 @@ export function processGeom(vertices, triangles, inputOpts={}) {
     }
   } else {
     if (opts.normals) {
-      // When the shape is inscribed in the unit sphere, the vertex normals are the same as the vertices!
-      normals = vertices.map((v) => vec3.clone(v));
+      normals = vertsAsNormals(vertices, triangles);
     }
   }
 
