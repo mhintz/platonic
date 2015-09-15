@@ -54,6 +54,7 @@ function runTest(generator) {
 
       float greyVal = clamp(dot(viewNormal, toLight), 0., 1.) * 0.5;
       gl_FragColor = vec4(0.15, 0.15, 0.15, 1.) + vec4(greyVal, greyVal, greyVal, 1.);
+      // gl_FragColor = vec4(clamp(normal, 0.1, 1.), 1.);
       // gl_FragColor = vec4(clamp(viewNormal, 0.1, 1.), 1.);
     }
   `;
@@ -66,10 +67,12 @@ function runTest(generator) {
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
 
   let modelRotation = glm.quat.create();
+
   // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(1, 0, 0), Math.PI * 2 / 17); // For the dodecahedron
   // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(1, 0, 0), Math.PI / 4);
   // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(0, 1, 0), Math.PI / 4);
   // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(0, 0, 1), Math.PI / 4);
+
   let rotationSpeed = Math.PI / 200;
 
   let viewMatrix = null;
