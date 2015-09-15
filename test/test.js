@@ -65,6 +65,7 @@ function runTest(generator) {
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
 
   let modelRotation = glm.quat.create();
+  let rotationSpeed = Math.PI / 200;
 
   let viewMatrix = null;
   let projectionMatrix = null;
@@ -97,9 +98,9 @@ function runTest(generator) {
 
     shader.bind();
 
-    glm.quat.rotateX(modelRotation, modelRotation, Math.PI / 500);
-    glm.quat.rotateY(modelRotation, modelRotation, Math.PI / 500);
-    glm.quat.rotateZ(modelRotation, modelRotation, Math.PI / 500);
+    glm.quat.rotateX(modelRotation, modelRotation, rotationSpeed);
+    glm.quat.rotateY(modelRotation, modelRotation, rotationSpeed);
+    glm.quat.rotateZ(modelRotation, modelRotation, rotationSpeed);
 
     let modelView = glm.mat4.mul(glm.mat4.create(), viewMatrix, glm.mat4.fromQuat(glm.mat4.create(), modelRotation));
     let normalView = glm.mat4.invert(glm.mat4.create(), modelView);
