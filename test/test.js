@@ -7,7 +7,7 @@ var createVBO = require('gl-buffer');
 
 import * as platonic from '../index.js';
 
-window.testCube = function() {
+function runTest(generator) {
   var gl = createContext();
   var app = createLoop(gl.canvas, {
     scale: window.devicePixelRatio > 1 ? window.devicePixelRatio : 1
@@ -24,6 +24,7 @@ window.testCube = function() {
     attribute vec3 a_normal;
 
     varying vec4 v_color;
+    varying vec3 v_normal;
     varying vec3 v_viewNormal;
     varying vec3 v_viewPos;
 
@@ -31,6 +32,7 @@ window.testCube = function() {
       gl_Position = u_projection * u_vertToView * vec4(a_position, 1.);
 
       v_color = vec4(a_position, 1.);
+      v_normal = a_normal;
       v_viewPos = (u_vertToView * vec4(a_position, 1.)).xyz;
       v_viewNormal = (u_normToView * vec4(a_normal, 1.)).xyz;
     }
@@ -40,6 +42,7 @@ window.testCube = function() {
     precision highp float;
 
     varying vec4 v_color;
+    varying vec3 v_normal;
     varying vec3 v_viewNormal;
     varying vec3 v_viewPos;
 
@@ -47,12 +50,13 @@ window.testCube = function() {
       vec3 toCamera = - v_viewPos;
       float greyVal = clamp(dot(v_viewNormal, toCamera), 0., 1.) / 2.;
       gl_FragColor = vec4(greyVal, greyVal, greyVal, 1.);
+      // gl_FragColor = vec4(v_normal, 1.);
     }
   `;
 
   let shader = createShader(gl, vertShaderSrc, fragShaderSrc);
 
-  let cubeGeom = platonic.cube({ normals: true, sharedVertices: false });
+  let cubeGeom = generator({ normals: true, sharedVertices: true });
   let verticesBuffer = createVBO(gl, cubeGeom.vertices);
   let normalsBuffer = createVBO(gl, cubeGeom.normals);
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
@@ -101,4 +105,12 @@ window.testCube = function() {
   })
   .on('resize', onResize)
   .start();
+}
+
+window.testTetrahedron = function() {
+  runTest(platonic.tetrahedron);
+}
+
+window.testCube = function() {
+  runTest(platonic.cube);
 }
