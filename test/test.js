@@ -138,3 +138,12 @@ window.testCube = function() {
 window.testOctahedron = function() {
   runTest(platonic.octahedron);
 }
+
+window.testDodecahedron = function() {
+  runTest(platonic.dodecahedron);
+}
+
+window.testIcosahedron = function() {
+  runTest(platonic.icosahedron);
+}
+
