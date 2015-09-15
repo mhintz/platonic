@@ -2,7 +2,7 @@
 
 A library for generating platonic sold geometry. The platonic solids are inscribed into the unit circle, so the length of each position vector should be 1. The winding order of triangles is counter-clockwise.
 
-The polygons are intended to be drawn with gl.drawElements, in gl.TRIANGLES mode. Drawing indices and normals are provided.
+The polygons are intended to be drawn with `gl.drawElements`, in `gl.TRIANGLES` mode. Drawing indices and normals are provided.
 
 Each mesh has the following properties:
 
