@@ -108,22 +108,22 @@ export function processGeom(vertices, triangles, inputOpts={}) {
   let opts = {
     flattened: true,
     normals: true,
-    sharedVertices: true,
+    splitVertices: true,
     ...inputOpts
   };
 
   let normals = [];
 
-  if (opts.sharedVertices) {
-    if (opts.normals) {
-      // When the shape is inscribed in the unit sphere, the vertex normals are the same as the vertices!
-      normals = vertices.map((v) => vec3.clone(v));
-    }
-  } else {
+  if (opts.splitVertices) {
     [vertices, triangles] = splitVertices(vertices, triangles);
 
     if (opts.normals) {
       normals = genFaceNormalsPerVertex(vertices, triangles);
+    }
+  } else {
+    if (opts.normals) {
+      // When the shape is inscribed in the unit sphere, the vertex normals are the same as the vertices!
+      normals = vertices.map((v) => vec3.clone(v));
     }
   }
 

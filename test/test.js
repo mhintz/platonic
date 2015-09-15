@@ -60,7 +60,7 @@ function runTest(generator) {
 
   let shader = createShader(gl, vertShaderSrc, fragShaderSrc);
 
-  let cubeGeom = generator({ normals: true, sharedVertices: false });
+  let cubeGeom = generator({ normals: true, splitVertices: true });
   let verticesBuffer = createVBO(gl, cubeGeom.vertices);
   let normalsBuffer = createVBO(gl, cubeGeom.normals);
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
