@@ -1,4 +1,4 @@
-import {vec3} from 'gl-matrix';
+import {vec3, quat} from 'gl-matrix';
 
 import * as util from './util';
 
@@ -157,5 +157,17 @@ function getRawDodecahedron() {
 
 export function createDodecahedron(options) {
   let [vertices, triangles] = getRawDodecahedron();
+
+  let opts = {
+    pointOnZ: true,
+    ...options
+  };
+
+  if (opts.pointOnZ) {
+    let rotation = quat.create();
+    quat.rotateX(rotation, rotation, Math.PI * 2 / 17);
+    vertices.forEach((v) => vec3.transformQuat(v, v, rotation));
+  }
+
   return util.processGeom(vertices, triangles, options);
 }

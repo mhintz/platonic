@@ -6,10 +6,6 @@ function getRawCube() {
   let irad = Math.sqrt(1 / 3);
   let diag = Math.sqrt(2 / 3);
 
-  // Rotates the cube around the x axis to align a point with the z axis
-  let rotation = quat.create();
-  quat.rotateX(rotation, rotation, Math.PI / 5);
-
   let v1 = vec3.fromValues(0, irad, diag);
   let v2 = vec3.fromValues(diag, irad, 0);
   let v3 = vec3.fromValues(0, irad, -diag);
@@ -20,8 +16,6 @@ function getRawCube() {
   let v8 = vec3.fromValues(0, -irad, -diag);
 
   let vertices = [ v1, v2, v3, v4, v5, v6, v7, v8 ];
-
-  vertices.forEach((v) => vec3.transformQuat(v, v, rotation));
 
   let triangles = [];
 
@@ -54,5 +48,18 @@ function getRawCube() {
 
 export function createCube(options) {
   let [vertices, triangles] = getRawCube();
+
+  let opts = {
+    pointOnZ: true,
+    ...options
+  };
+
+  if (opts.pointOnZ) {
+    // Rotates the cube around the x axis to align a point with the z axis
+    let rotation = quat.create();
+    quat.rotateX(rotation, rotation, Math.PI / 5);
+    vertices.forEach((v) => vec3.transformQuat(v, v, rotation));
+  }
+
   return util.processGeom(vertices, triangles, options);
 }

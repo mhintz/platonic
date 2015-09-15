@@ -61,14 +61,13 @@ function runTest(generator) {
 
   let shader = createShader(gl, vertShaderSrc, fragShaderSrc);
 
-  let cubeGeom = generator({ normals: true, splitVertices: true });
+  let cubeGeom = generator({ normals: true, splitVertices: true, pointOnZ: true });
   let verticesBuffer = createVBO(gl, cubeGeom.vertices);
   let normalsBuffer = createVBO(gl, cubeGeom.normals);
   let indicesBuffer = createVBO(gl, cubeGeom.indices, gl.ELEMENT_ARRAY_BUFFER);
 
   let modelRotation = glm.quat.create();
 
-  // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(1, 0, 0), Math.PI * 2 / 17); // For the dodecahedron
   // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(1, 0, 0), Math.PI / 4);
   // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(0, 1, 0), Math.PI / 4);
   // glm.quat.setAxisAngle(modelRotation, glm.vec3.fromValues(0, 0, 1), Math.PI / 4);
