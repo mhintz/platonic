@@ -47,13 +47,14 @@ function runTest(generator) {
     varying vec3 v_viewNormal;
 
     void main() {
-      vec3 toCamera = normalize(vec3(1, 0.5, 0) - v_viewPos);
+      // vec3 toLight = normalize(vec3(1, 0.5, 0) - v_viewPos);
+      vec3 toLight = normalize(vec3(0, 0, 0) - v_viewPos);
       vec3 normal = normalize(v_normal);
       vec3 viewNormal = normalize(v_viewNormal);
 
-      float greyVal = clamp(dot(viewNormal, toCamera), 0., 1.) * 0.5;
+      float greyVal = clamp(dot(viewNormal, toLight), 0., 1.) * 0.5;
       gl_FragColor = vec4(0.15, 0.15, 0.15, 1.) + vec4(greyVal, greyVal, greyVal, 1.);
-      // gl_FragColor = vec4(normal, 1.);
+      // gl_FragColor = vec4(clamp(viewNormal, 0.1, 1.), 1.);
     }
   `;
 
