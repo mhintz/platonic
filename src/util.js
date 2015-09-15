@@ -103,3 +103,40 @@ export function flatten(arr) {
     return red;
   }, []);
 }
+
+export function processGeom(vertices, triangles, inputOpts={}) {
+  let opts = {
+    flattened: true,
+    normals: true,
+    sharedVertices: true,
+    ...inputOpts
+  };
+
+  let normals = [];
+
+  if (opts.sharedVertices) {
+    if (opts.normals) {
+      // When the shape is inscribed in the unit sphere, the vertex normals are the same as the vertices!
+      normals = vertices.map((v) => vec3.clone(v));
+    }
+  } else {
+    [vertices, triangles] = splitVertices(vertices, triangles);
+
+    if (opts.normals) {
+      normals = genFaceNormalsPerVertex(vertices, triangles);
+    }
+  }
+
+  if (opts.flattened) {
+    vertices = flatten(vertices);
+    normals = flatten(normals);
+    triangles = flatten(triangles);
+  }
+
+  return {
+    vertices: vertices,
+    normals: normals,
+    indices: triangles,
+    indexCount: opts.flattened ? triangles.length : triangles.length * 3
+  };
+}

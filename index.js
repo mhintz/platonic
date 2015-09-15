@@ -1,9 +1,6 @@
-var platonic = {};
+export {createTetrahedron as tetrahedron} from './src/tetrahedron';
+export {createCube as cube} from './src/cube';
+export {createOctahedron as octahedron} from './src/octahedron';
+export {createDodecahedron as dodecahedron} from './src/dodecahedron';
+export {createIcosahedron as icosahedron} from './src/icosahedron';
 
-platonic.tetrahedron = require('./src/tetrahedron');
-platonic.cube = require('./src/cube');
-platonic.octahedron = require('./src/octahedron');
-platonic.dodecahedron = require('./src/dodecahedron');
-platonic.icosahedron = require('./src/icosahedron');
-
-module.exports = platonic;

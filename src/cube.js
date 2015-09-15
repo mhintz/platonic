@@ -1,15 +1,8 @@
-import vec3 from 'gl-matrix';
+import {vec3} from 'gl-matrix';
 
-import util from './util';
+import * as util from './util';
 
-export function createCube(inputOpts={}) {
-  let opts = {
-    flattened: true,
-    normals: true,
-    sharedVertices: true,
-    ...inputOpts
-  };
-
+function getRawCube() {
   let len = 1 / Math.sqrt(3);
 
   let v1 = vec3.fromValues( len,  len,  len);
@@ -49,31 +42,10 @@ export function createCube(inputOpts={}) {
   triangles.push([5, 6, 1]);
   triangles.push([5, 1, 0]);
 
-  let normals = [];
+  return [vertices, triangles];
+}
 
-  if (opts.sharedVertices) {
-    if (opts.normals) {
-      // When the shape is inscribed in the unit sphere, the vertex normals are the same as the vertices!
-      normals = vertices.map((v) => vec3.clone(v));      
-    }
-  } else {
-    [vertices, triangles] = util.splitVertices(vertices, triangles);
-
-    if (opts.normals) {
-      normals = util.genFaceNormalsPerVertex(vertices, triangles);
-    }
-  }
-
-  if (opts.flattened) {
-    vertices = util.flatten(vertices);
-    normals = util.flatten(normals);
-    triangles = util.flatten(triangles);
-  }
-
-  return {
-    vertices: vertices,
-    normals: normals,
-    indices: triangles,
-    indexCount: opts.flattened ? triangles.length : triangles.length * 3
-  };
+export function createCube(options) {
+  let [vertices, triangles] = getRawCube();
+  return util.processGeom(vertices, triangles, options);
 }

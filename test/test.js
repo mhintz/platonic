@@ -5,7 +5,7 @@ var glm = require('gl-matrix');
 var createShader = require('gl-shader');
 var createVBO = require('gl-buffer');
 
-var platonic = require('../index.js');
+import * as platonic from '../index.js';
 
 window.testCube = function() {
   var gl = createContext();
