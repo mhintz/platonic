@@ -4,7 +4,7 @@
   "description": "A collection of generators for platonic solid geometry",
   "main": "dist/platonic.min.js",
   "scripts": {
-    "test": "webpack --module-bind 'js=babel' --watch test/test.js test/test.out.js",
+    "test": "webpack --module-bind 'js=babel?blacklist[]=strict' --watch test/test.js test/test.out.js",
     "build": "webpack -p --module-bind 'js=babel' ./index.js dist/platonic.min.js"
   },
   "author": "Mark Hintz",
