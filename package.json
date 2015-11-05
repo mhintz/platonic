@@ -4,8 +4,9 @@
   "description": "A collection of generators for platonic solid geometry",
   "main": "dist/platonic.min.js",
   "scripts": {
-    "test": "webpack --module-bind 'js=babel?blacklist[]=strict' --watch test/test.js test/test.out.js",
-    "build": "webpack -p --module-bind 'js=babel' ./index.js dist/platonic.min.js"
+    "test": "CONFIG=test webpack --watch test/test.js test/test.out.js",
+    "build": "webpack ./index.js dist/platonic.js",
+    "dist": "webpack -p ./index.js dist/platonic.min.js"
   },
   "author": "Mark Hintz",
   "license": "MIT",
